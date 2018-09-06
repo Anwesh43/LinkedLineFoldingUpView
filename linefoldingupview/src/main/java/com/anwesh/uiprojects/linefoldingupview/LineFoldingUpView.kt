@@ -137,4 +137,27 @@ class LineFoldingUpView(ctx : Context) : View(ctx) {
             return this
         }
     }
+
+    data class LineFoldingUp(var i : Int) {
+        private val root : LFUNode = LFUNode(0)
+        private var curr : LFUNode = root
+        private var dir : Int = 1
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            curr.draw(canvas, paint)
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
+        }
+
+        fun update(cb : (Int, Float) -> Unit) {
+            curr.update {i, scl ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                cb(i, scl)
+            }
+        }
+    }
 }
