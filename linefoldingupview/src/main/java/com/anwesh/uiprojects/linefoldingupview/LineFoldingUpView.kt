@@ -77,7 +77,7 @@ class LineFoldingUpView(ctx : Context) : View(ctx) {
             }
         }
 
-        fun animnate(cb : () -> Unit) {
+        fun animate(cb : () -> Unit) {
             if (animated) {
                 cb()
                 try {
@@ -157,6 +157,28 @@ class LineFoldingUpView(ctx : Context) : View(ctx) {
                     dir *= -1
                 }
                 cb(i, scl)
+            }
+        }
+    }
+
+    data class Renderer(var view : LineFoldingUpView) {
+
+        private val animator : Animator = Animator(view)
+        private var lineFoldingUp : LineFoldingUp = LineFoldingUp(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#BDBDBD"))
+            lineFoldingUp.draw(canvas, paint)
+            animator.animate {
+                lineFoldingUp.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            lineFoldingUp.startUpdating {
+                animator.start()
             }
         }
     }
