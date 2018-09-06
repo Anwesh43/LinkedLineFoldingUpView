@@ -4,6 +4,7 @@ package com.anwesh.uiprojects.linefoldingupview
  * Created by anweshmishra on 06/09/18.
  */
 
+import android.app.Activity
 import android.view.View
 import android.view.MotionEvent
 import android.graphics.Canvas
@@ -182,6 +183,14 @@ class LineFoldingUpView(ctx : Context) : View(ctx) {
             lineFoldingUp.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : LineFoldingUpView {
+            val view : LineFoldingUpView = LineFoldingUpView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
